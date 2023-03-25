@@ -1,0 +1,234 @@
+### Libraries ###
+
+# imported libraries ------------------------------------------------------------------------------------------------------------------------------------------
+from tkinter import *
+from tkinter import messagebox
+import sys # to increase the recursion limit
+sys.setrecursionlimit(10**9)
+
+
+
+### Main Window ###
+    
+MainWindow = Tk() # Create the Main window (menu) 
+MainWindow.title("Project 1") 
+MainWindow.minsize(991,425) # Size
+MainWindow.resizable(width=NO,height=NO) # The window cannot be enlarged or made smaller 
+
+
+binText = StringVar()
+octText = StringVar()
+decText = StringVar()
+
+def SetNum(num2,num8,num10):
+    binText.set(num2)
+    octText.set(num8)
+    decText.set(num10)
+    
+def CheckNum(num):
+    nonAllowed = ["8","9","A","B","C","D","E","F"]
+    Allowed = ["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"]
+    fails = []
+    if len(num)==3:
+        if num[0] in Allowed:
+            if num[0] not in nonAllowed:
+                for c in num:
+                    if c in Allowed:
+                        print (c)
+                        # Convert
+                        # return SetNum("10110101110","1234","78")
+                    else:
+                        messagebox.showerror("Numero no permitido", "Caracter \""+c+ "\" no pertenece \nal sistema hexadecimal.")
+                        print ("Numero no permitido, el caracter \""+c+ "\" no pertenece al sistema hexadecimal.")
+                        break
+            else:
+                messagebox.showerror("Numero no permitido", "El numero sobrepasa el rango \nestablecido (000 a 7FF).")
+                print ("Numero no permitido, el numero sobrepasa el rango establecido.")
+        else:
+            messagebox.showerror("Numero no permitido", "Caracter \""+num[0]+ "\" no pertenece \nal sistema hexadecimal.")
+            print ("Numero no permitido, el caracter \""+num[0]+ "\" no pertenece al sistema hexadecimal.")
+    else:
+        messagebox.showerror("Numero no permitido", "El numero debe ser exactamente de 3\ndigitos hexadecimales.")
+        print ("Numero no permitido, el numero debe ser exactamente de 3 digitos hexadecimales.")
+    
+ 
+    
+
+LabelFondo=Label(MainWindow) # 
+LabelFondo.place (x=0, y=0) # 
+
+NumLabel=Label(MainWindow,width=58,height=2,text="1. Ingrese un numero hexadecimal entre 000 y 7FF",font=("Consolas", 10),bg="black",fg="yellow")#texto
+NumLabel.place(x=0,y=10)#
+num=Entry(MainWindow,width=8,font=("Consolas", 12),bg="white",fg="black", justify=CENTER)
+num.place(x=124,y=55) #
+ConvertButton=Button(MainWindow,text="Convertir",font=("Consolas", 10),bg="#31416D",fg="#8DA9F3", activebackground="black",
+                        activeforeground="yellow", relief=RAISED, command= lambda:CheckNum(num.get()))# boton de aceTime2ar7291E4
+ConvertButton.place(x=204,y=54)
+
+NumLabel2=Label(MainWindow,width=58,height=1,text="   Binario          Octal          Decimal   ",font=("Consolas", 10),bg="black",fg="yellow")#texto
+NumLabel2.place(x=0,y=90)#
+blackLabel=Label(MainWindow,width=58,height=2,bg="black")
+blackLabel.place(x=0,y=110)#
+
+
+binText = StringVar()
+
+def selectParity():
+    if parity.get() == 1:
+        binText.set("Utilizar: Par")
+    elif parity.get() == 2:
+        binText.set("Utilizar: Impar")
+
+BinLabel=Label(MainWindow,width=12,height=1,textvariable=binText, font=("Consolas", 10),bg="white",fg="black",justify=CENTER)#texto
+BinLabel.place(x=46,y=118)#
+OctLabel=Label(MainWindow,width=12,height=1,textvariable=octText,font=("Consolas", 10),bg="white",fg="black",justify=CENTER)#texto
+OctLabel.place(x=160,y=118)#
+DecLabel=Label(MainWindow,width=12,height=1,textvariable=decText,font=("Consolas", 10),bg="white",fg="black",justify=CENTER)#texto
+DecLabel.place(x=274,y=118)#
+
+nrziLabel=Label(MainWindow,width=58,height=1,text="2. Observe la codificación NRZI",font=("Consolas", 10),bg="black",fg="yellow")#texto
+nrziLabel.place(x=0,y=148)#123
+
+parityLabel=Label(MainWindow,width=58,height=1,text="3. Seleccione la paridad",font=("Consolas", 10),bg="black",fg="yellow")#texto
+parityLabel.place(x=0,y=360)#123
+
+
+canvas = Canvas(MainWindow, width=320, height=150, bg='white')
+canvas.place(x=42,y=189)
+
+
+parity = IntVar()
+print(parity.get())
+btn_text = StringVar()
+btn_text.set("Utilizar:  -")
+def selectParity():
+    if parity.get() == 1:
+        btn_text.set("Utilizar: Par")
+    elif parity.get() == 2:
+        btn_text.set("Utilizar: Impar")
+evenRButton=Radiobutton(MainWindow,width = 8,text='Par', font=("Consolas", 10),bg="black",fg="yellow" ,activebackground="#31416D",
+                        activeforeground="#8DA9F3",variable=parity, relief=RAISED, value=1, command = selectParity)
+evenRButton.place(x=52,y=390)#148
+
+oddRButton=Radiobutton(MainWindow,width = 8, text='Impar', font=("Consolas", 10),bg="black",fg="yellow",activebackground="#31416D",
+                       activeforeground="#8DA9F3", variable=parity, relief=RAISED, value=2, command = selectParity)
+oddRButton.place(x=137,y=390)#        
+
+
+parityButton=Button(MainWindow,width =16 ,textvariable=btn_text,font=("Consolas", 10),bg="#31416D",fg="#8DA9F3", activebackground="black",
+                        activeforeground="yellow", relief=RAISED, command=selectParity)# boton de aceTime2ar7291E4
+parityButton.place(x=222,y=390)
+
+
+divLabel=Label(MainWindow,width=2,height=100,font=("Consolas", 10),bg="black",fg="yellow")#texto
+divLabel.place(x=410,y=10)#
+
+table1Label=Label(MainWindow,width=80,height=2,text="4. Observe el calculo de los bits de paridad en el codigo Hamming.",font=("Consolas", 10),bg="black",fg="yellow")#texto
+table1Label.place(x=425,y=10)#
+
+# take the data
+lst = ["","p1","p2","d1","p3","d2","d3","d4","p4","d5","d6","d7","d8","d9","d10","d11"]
+lst2 = ["","Datos sin paridad","p1","p2","p3","p4","Datos con paridad"]
+lstE = []
+
+
+
+    
+# find total number of rows and
+# columns in list
+total_rows = 7
+total_columns = 16
+
+
+u  = 476
+o = 53
+
+
+  
+for i in range(total_rows):
+    for j in range(total_columns):
+        if u==476:
+            e = Entry(MainWindow, width=15, fg='black',font=('Console',10), justify= CENTER)
+            e.place(x=u,y=o)
+            e.insert(END, lst2[i])
+            u+=107
+            lstE.append(e)
+            #print(e.get())
+
+        else:
+            e = Entry(MainWindow, width=3, fg='black',font=('Console',10), justify= CENTER) 
+            e.place(x=u,y=o)
+            if o==53:
+                e.insert(END, lst[j])
+            u+=24
+            lstE.append(e)
+            #print(e.get())
+    u = 476    
+    o+=20
+
+
+
+
+table2Label=Label(MainWindow,width=80,height=1,text="5. Cambie un bit de la hilera original para forzar un error.",font=("Consolas", 10),bg="black",fg="yellow")#texto
+table2Label.place(x=425,y=200)#
+# take the data
+lst3 = ["","p1","p2","d1","p3","d2","d3","d4","p4","d5","d6","d7","d8","d9","d10","d11","Prueba","Bit paridad"]
+lst4 = ["","Datos","p1","p2","p3","p4"]
+lstE2 = []  
+# find total number of rows and
+# columns in list
+total_rows2 = 6
+total_columns2 = 18
+u  = 440
+o = 230
+for i in range(total_rows2):
+    for j in range(total_columns2):
+        if u==440:
+            e2 = Entry(MainWindow, width=5, fg='black',font=('Console',10), justify= CENTER)
+            e2.place(x=u,y=o)
+            e2.insert(END, lst4[i])
+            lstE2.append(e)
+            u+=37
+        elif u ==(440+(24*15)+37) or u ==(440+(24*15)+37+67):
+            
+            e2 = Entry(MainWindow, width=10, fg='black',font=('Console',10), justify= CENTER)
+            e2.place(x=u,y=o)
+            lstE2.append(e)
+            #print(j)
+            if o==230:
+                e2.insert(END, lst3[j])
+            u+=67
+        else:
+            e2 = Entry(MainWindow, width=3, fg='black',font=('Console',10), justify= CENTER) 
+            e2.place(x=u,y=o)
+            lstE2.append(e)
+            if o==230:
+                e2.insert(END, lst3[j])
+            u+=24
+    u = 440    
+    o+=20
+
+
+def getBin(binNum):
+    cont = 0
+    for e in range(len(lstE)):
+        if e == 19:
+            lstE[e].insert(END,binNum[cont])
+            cont+=1
+        elif e>20 and e<24:
+            lstE[e].insert(END,binNum[cont])
+            cont+=1
+        elif e>24 and e<32:
+            lstE[e].insert(END,binNum[cont])
+            cont+=1
+
+getBin("10101010101")
+
+testLabel=Label(MainWindow,width=80,height=1,text="6. Realice la prueba y observe el número de bit en donde ocurre la falla.",font=("Consolas", 10),bg="black",fg="yellow")#texto
+testLabel.place(x=425,y=360)#
+testButton=Button(MainWindow,width =16 ,text= "Realizar prueba",font=("Consolas", 10),bg="#31416D",fg="#8DA9F3", activebackground="black",
+                        activeforeground="yellow", relief=RAISED, command=selectParity)
+testButton.place(x=649,y=390)
+
+MainWindow.mainloop()  
+
