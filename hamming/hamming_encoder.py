@@ -79,3 +79,4 @@ class HammingEncoder:
         if not has_only_binary_numbers(num):
             return -1
         return self.encode_list(num)
+
