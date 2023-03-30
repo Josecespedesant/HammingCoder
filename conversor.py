@@ -1,8 +1,10 @@
+
 def is_hex_11bit(hex_input):
     """
     :param hex_input:
     :return True si la cadena representa un número hexadecimal válido de 11 bits, False de lo contrario:
     """
+
 
     # Rellenar con ceros a la izquierda si es necesario
     hex_input = pad_hex(hex_input)
@@ -33,6 +35,7 @@ def pad_hex(hex_string):
     :return la misma cadena rellenada con ceros a la izquierda hasta alcanzar una longitud de 3 caracteres:
     """
 
+
     # Obtener la longitud de la cadena hexadecimal
     length = len(hex_string)
 
@@ -60,6 +63,7 @@ def converter(input_string):
     :param input_string:
     :return <tuple> binary_num, octal_num, dec_num, hex_num:
     """
+
 
     input_string = pad_hex(input_string)
     
