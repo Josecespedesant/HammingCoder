@@ -289,4 +289,3 @@ testButton=Button(MainWindow,width =16 ,text= "Realizar prueba",font=("Consolas"
 testButton.place(x=649,y=390)
 
 MainWindow.mainloop()  
-
