@@ -5,10 +5,10 @@ from tkinter import *
 def draw_NRZI(canvas, bits):
     x = 10  # posición inicial en el eje x
     y = 100  # posición en el eje y
-    dim = 20 # con esta variable se cambia la dimensión de la gráfica
+    dim = 27 # con esta variable se cambia la dimensión de la gráfica
 
     # Dibujar la línea base
-    canvas.create_line(x, y + 20, x + len(bits) * 20, y + 20, fill="black", width=2)
+    canvas.create_line(x, y + 27, x + len(bits) * 27, y + 27, fill="black", width=2)
 
     # Dibujar la representación NRZI
     pos_up = 1
