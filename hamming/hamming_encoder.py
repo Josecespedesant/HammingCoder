@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class Parity(Enum):
-    ODD = 1
-    EVEN = 2
+    ODD = 2
+    EVEN = 1
 
 
 def num_to_list(num):
