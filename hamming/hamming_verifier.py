@@ -6,10 +6,10 @@ fourth_parity_digits = [8, 9, 10, 11, 12, 13, 14]
 digits_groups = [first_parity_digits, second_parity_digits,
                  third_parity_digits, fourth_parity_digits]
 
-binary_numbers = ["0000", "0001", "0010", "0011",
+binary_numbers = ["0001", "0010", "0011",
                   "0100", "0101", "0110", "0111",
                   "1000", "1001", "1010", "1011",
-                  "1100", "1101", "1110"]
+                  "1100", "1101", "1110", "1111"]
 
 
 def is_binary(string):
@@ -94,10 +94,14 @@ class HammingVerifier:
         error_position += "0" if self._received_parity_3 == self._new_parity_3 else "1"
         error_position += "0" if self._received_parity_2 == self._new_parity_2 else "1"
         error_position += "0" if self._received_parity_1 == self._new_parity_1 else "1"
+        if not self._is_even:
+            error_position = error_position[::-1]
 
         digit_position = 1
-        binary_numbers = binary_numbers[::-1]
+        # binary_numbers = binary_numbers[::-1]
         for number in binary_numbers:
+            if not self._is_even and error_position == "0000":
+                self._error_bit_position = 15
             if error_position == number:
                 self._error_bit_position = digit_position
                 break

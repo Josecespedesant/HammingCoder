@@ -338,7 +338,16 @@ def make_hamming_test():
     error_position = verifier.check_parity(new_string, is_even)
 
     if error_position != -1:
-        matrixE2[1][error_position].configure(bg="Red")
+        if is_even:
+            matrixE2[1][error_position].configure(bg="Red")
+        elif not is_even:
+            count = 1
+            for char in new_string:
+                if char == global_hamming_result[count-1]:
+                    count += 1
+                else:
+                    matrixE2[1][count].configure(bg="Red")
+                    break
     else:
         matrixE2[1][error_position].configure(bg="White")
 
