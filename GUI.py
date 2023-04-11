@@ -133,7 +133,8 @@ table1Label.place(x=425,y=10)#
 lst = ["","p1","p2","d1","p3","d2","d3","d4","p4","d5","d6","d7","d8","d9","d10","d11"]
 lst2 = ["","Datos sin paridad","p1","p2","p3","p4","Datos con paridad"]
 lstE = []
-
+lstAUX = []
+matrixE = []
 
 
     
@@ -156,6 +157,7 @@ for i in range(total_rows):
             e.insert(END, lst2[i])
             u+=107
             lstE.append(e)
+            lstAUX.append(e)
             #print(e.get())
 
         else:
@@ -165,7 +167,10 @@ for i in range(total_rows):
                 e.insert(END, lst[j])
             u+=24
             lstE.append(e)
+            lstAUX.append(e)
             #print(e.get())
+    matrixE.append(lstAUX)
+    lstAUX=[]
     u = 476    
     o+=20
 
@@ -177,39 +182,50 @@ table2Label.place(x=425,y=200)#
 # take the data
 lst3 = ["","p1","p2","d1","p3","d2","d3","d4","p4","d5","d6","d7","d8","d9","d10","d11","Prueba","Bit paridad"]
 lst4 = ["","Datos","p1","p2","p3","p4"]
-lstE2 = []  
+lstE2 = []
+lstAUX2 = []
+matrixE2 = []
+
 # find total number of rows and
 # columns in list
 total_rows2 = 6
 total_columns2 = 18
-u  = 440
-o = 230
+u2  = 440
+o2 = 230
 for i in range(total_rows2):
     for j in range(total_columns2):
-        if u==440:
+        if u2==440:
             e2 = Entry(MainWindow, width=5, fg='black',font=('Console',10), justify= CENTER)
-            e2.place(x=u,y=o)
+            e2.place(x=u2,y=o2)
             e2.insert(END, lst4[i])
-            lstE2.append(e)
-            u+=37
-        elif u ==(440+(24*15)+37) or u ==(440+(24*15)+37+67):
+            u2+=37
+            lstE2.append(e2)
+            lstAUX2.append(e2)
+        elif u2 ==(440+(24*15)+37) or u2 ==(440+(24*15)+37+67):
             
             e2 = Entry(MainWindow, width=10, fg='black',font=('Console',10), justify= CENTER)
-            e2.place(x=u,y=o)
-            lstE2.append(e)
+            e2.place(x=u2,y=o2)
+        
             #print(j)
-            if o==230:
+            if o2==230:
                 e2.insert(END, lst3[j])
-            u+=67
+            u2+=67
+            lstE2.append(e2)
+            lstAUX2.append(e2)
         else:
             e2 = Entry(MainWindow, width=3, fg='black',font=('Console',10), justify= CENTER) 
-            e2.place(x=u,y=o)
-            lstE2.append(e)
-            if o==230:
+            e2.place(x=u2,y=o2)
+            
+            if o2==230:
                 e2.insert(END, lst3[j])
-            u+=24
-    u = 440    
-    o+=20
+            u2+=24
+            lstE2.append(e2)
+            lstAUX2.append(e2)
+    matrixE2.append(lstAUX2)
+    lstAUX2=[]
+    u2 = 440    
+    o2+=20
+
 
 
 def getBin(binNum):
@@ -230,6 +246,32 @@ def getBin(binNum):
             lstE[e].insert(END,binNum[cont])
             cont+=1
 
+def getBinP2(binNumP):
+    print(len(matrixE))
+    print(len(matrixE[0]))
+    print(len(matrixE2))
+    print(len(matrixE2[0]))
+    print(len(lstE2))
+    cont2=0
+    for e2 in range(len(lstE2)):
+        if e2>18 and e2<34:
+            lstE2[e2].delete(0)
+            lstE2[e2].insert(END,binNumP[cont2])
+            cont2+=1
+
+def insert(matrix, row, column, char):
+    if matrix==1:
+        matrixE[row][column].delete(0)
+        matrixE[row][column].insert(END,char)
+    else:
+        matrixE2[row][column].delete(0)
+        matrixE2[row][column].insert(END,char)
+    print(1)
+
+getBinP2("000010101010101")
+
+insert(2, 5, 5, "17")
+    
 def SetNum(num2,num8,num10):
     binText.set(num2)
     octText.set(num8)
