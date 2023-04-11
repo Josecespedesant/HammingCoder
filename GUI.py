@@ -131,8 +131,10 @@ oddRButton = Radiobutton(MainWindow, width=8, text='Impar', font=("Consolas", 10
                          activeforeground="#8DA9F3", variable=parity, relief=RAISED, value=2, command=selectParity)
 oddRButton.place(x=137, y=390)  #
 
+global_hamming_result = -1
+global_trace_result = None
 def call_hamming():
-    global binary_result_from_set_num
+    global binary_result_from_set_num, global_trace_result, global_hamming_result
     hamming = hamming_encoder.HammingEncoder(parity=parity.get())
     binary_str = str(binary_result_from_set_num)
     binary_lst = [int(ch) for ch in binary_str]
@@ -142,16 +144,19 @@ def call_hamming():
     for col, _ in enumerate(encoded_binary):
         insert(1, row=6, column=col+1, char=encoded_binary[col])
 
+    print_trace(trace, 1)
+    encoded_binary_str = "".join([str(x) for x in encoded_binary])
+    global_hamming_result = encoded_binary_str
+    global_trace_result = trace
+    getBinP2(encoded_binary_str)
+
+def print_trace(trace, matrix):
     for col, _ in enumerate(trace[0]):
         for row, _ in enumerate(trace):
             value = ""
             if trace[row][col] is not None:
                 value = trace[row][col]
-            insert(1, row=row+2, column=col+1, char=value)
-    encoded_binary_str = "".join([str(x) for x in encoded_binary])
-    getBinP2(encoded_binary_str)
-    print(trace)
-
+            insert(matrix, row=row+2, column=col+1, char=value)
 
 parityButton = Button(MainWindow, width=16, textvariable=btn_text, font=("Consolas", 10), bg="#31416D", fg="#8DA9F3",
                       activebackground="black",
@@ -299,7 +304,7 @@ def insert(matrix, row, column, char):
     else:
         matrixE2[row][column].delete(0)
         matrixE2[row][column].insert(END, char)
-    print(1)
+    # print(1)
 
 
 # getBinP2("000010101010101")
@@ -319,13 +324,62 @@ def SetNum(num2, num8, num10):
 
 # getBin("10101010101")
 
+def make_hamming_test():
+    new_string = ""
+
+    for col in range(15):
+        new_string = new_string + str(matrixE2[1][col+1].get())
+
+    is_even = False
+    if parity.get() == 1:
+        is_even = True
+
+    verifier = hamming_verifier.HammingVerifier()
+    error_position = verifier.check_parity(new_string, is_even)
+
+    if error_position != -1:
+        matrixE2[1][error_position].configure(bg="Red")
+    else:
+        matrixE2[1][error_position].configure(bg="White")
+
+    first = hamming_verifier.first_parity_digits
+    second = hamming_verifier.second_parity_digits
+    third = hamming_verifier.third_parity_digits
+    fourth = hamming_verifier.fourth_parity_digits
+
+    for dig in first:
+        insert(0, 2, dig + 1, new_string[dig])
+
+    for dig in second:
+        insert(0, 3, dig + 1, new_string[dig])
+
+    for dig in third:
+        insert(0, 4, dig + 1, new_string[dig])
+
+    for dig in fourth:
+        insert(0, 5, dig + 1, new_string[dig])
+
+    parities = verifier.get_parities()
+    old_parities = parities[0]
+    new_parities = parities[1]
+
+    for row, content in enumerate(old_parities):
+        insert(0, row+2, 16, content)
+
+    for row, content in enumerate(new_parities):
+        insert(0, row+2, 17, content)
+
+
+
+
 testLabel = Label(MainWindow, width=80, height=1,
                   text="6. Realice la prueba y observe el número de bit en donde ocurre la falla.",
                   font=("Consolas", 10), bg="black", fg="yellow")  # texto
 testLabel.place(x=425, y=360)  #
 testButton = Button(MainWindow, width=16, text="Realizar prueba", font=("Consolas", 10), bg="#31416D", fg="#8DA9F3",
                     activebackground="black",
-                    activeforeground="yellow", relief=RAISED, command=selectParity)
+                    activeforeground="yellow", relief=RAISED, command=lambda: make_hamming_test())
 testButton.place(x=649, y=390)
+
 
 MainWindow.mainloop()

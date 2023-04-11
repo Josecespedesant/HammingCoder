@@ -6,10 +6,10 @@ fourth_parity_digits = [8, 9, 10, 11, 12, 13, 14]
 digits_groups = [first_parity_digits, second_parity_digits,
                  third_parity_digits, fourth_parity_digits]
 
-binary_numbers = ["0001", "0010", "0011", "0100",
-                  "0101", "0110", "0111", "1000",
-                  "1001", "1010", "1011", "1100",
-                  "1101", "1110", "1111"]
+binary_numbers = ["0000", "0001", "0010", "0011",
+                  "0100", "0101", "0110", "0111",
+                  "1000", "1001", "1010", "1011",
+                  "1100", "1101", "1110"]
 
 
 def is_binary(string):
@@ -49,7 +49,7 @@ class HammingVerifier:
         new_parity_list = [self._new_parity_1, self._new_parity_2, self._new_parity_3, self._new_parity_4]
         old_parity_list = [self._received_parity_1, self._received_parity_2, self._received_parity_3,
                            self._received_parity_4]
-        parities_list = [new_parity_list, old_parity_list]
+        parities_list = [old_parity_list, new_parity_list]
 
         return parities_list
 
@@ -60,6 +60,7 @@ class HammingVerifier:
         :param string_with_error: The string given by the user that contains an error bit.
         :param is_even: True is parity is even, otherwise False\
         """
+        self.clean_up()
         if len(string_with_error) == 15:
             if is_binary(string_with_error):
                 self._string = string_with_error
@@ -70,10 +71,24 @@ class HammingVerifier:
 
         return self._error_bit_position
 
+    def clean_up(self):
+        self._string = ""
+        self._received_parity_1 = ""
+        self._received_parity_2 = ""
+        self._received_parity_3 = ""
+        self._received_parity_4 = ""
+        self._new_parity_1 = ""
+        self._new_parity_2 = ""
+        self._new_parity_3 = ""
+        self._new_parity_4 = ""
+        self._error_bit_position = -1
+        self._is_even = True
+
     def _compare_parities(self):
         """
         Checks the four digits of parity of both given and analyzed string to find the error bit position.
         """
+        global binary_numbers
         error_position = ""
         error_position += "0" if self._received_parity_4 == self._new_parity_4 else "1"
         error_position += "0" if self._received_parity_3 == self._new_parity_3 else "1"
@@ -81,6 +96,7 @@ class HammingVerifier:
         error_position += "0" if self._received_parity_1 == self._new_parity_1 else "1"
 
         digit_position = 1
+        binary_numbers = binary_numbers[::-1]
         for number in binary_numbers:
             if error_position == number:
                 self._error_bit_position = digit_position
